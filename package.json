@@ -1,0 +1,31 @@
+{
+  "name": "projeto_pratico",
+  "version": "1.0.0",
+  "description": "Projeto Pratico com node e mongoDb",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --ui tdd"
+  },
+  "author": "Silvio Marçal",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "git": "^0.1.5",
+    "mocha": "^6.2.2",
+    "mongoose": "^5.7.7"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcalgyn/nodejs.git"
+  },
+  "keywords": [
+    "ludi@ni1"
+  ],
+  "bugs": {
+    "url": "https://github.com/marcalgyn/nodejs/issues"
+  },
+  "homepage": "https://github.com/marcalgyn/nodejs#readme"
+}
