@@ -5,10 +5,8 @@ const handlebars = require('express-handlebars');
 const bodyParser = require('body-parser');
 const app = express();
 const admin = require('./routes/admin');
-
-const mongoose = require('mongoose');
-
 const path = require("path");
+const mongoose = require('mongoose');
 
 //Configurações
     //Body Parser
@@ -25,7 +23,7 @@ const path = require("path");
         useUnifiedTopology: true
     }).then(() => {
         console.log('Conectado com o banco realizado com sucesso...')
-    }).catch((err) => {
+    }).catch((erro) => {
         console.log('Erro conexao com MongoDB: ' + erro)
     })
 

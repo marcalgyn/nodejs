@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
+
 const CatPagamento = new Schema({
     nome: {
         type: String,

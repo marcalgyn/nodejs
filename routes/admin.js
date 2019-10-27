@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 
 require('../models/CatPagamento')
 
-const CatPagamento = mongoose.model('catPagamento');
+const CatPagamento = mongoose.model('catpagamento');
 
 
 router.get('/', (req, res) => {
