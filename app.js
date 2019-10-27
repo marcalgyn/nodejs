@@ -20,7 +20,7 @@ const path = require("path");
     app.set('view engine', 'handlebars');
 
     //Conexao com o Banco de Dados
-    mongoose.connect('mongodb://localhost/celke', {
+    mongoose.connect('mongodb://localhost/marcaldb', {
         useNewUrlParser: true,
         useUnifiedTopology: true
     }).then(() => {

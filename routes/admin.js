@@ -2,9 +2,10 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose')
+
 require('../models/CatPagamento')
 
-const CatPagamento = mongoose.model('CatPagamento');
+const CatPagamento = mongoose.model('catPagamento');
 
 
 router.get('/', (req, res) => {
@@ -28,7 +29,8 @@ router.get('/cad-cat-pagamento', (req, res) => {
 })
 
 
-router.pot('/add-cat-pagamento', (req, res) => {
+router.post('/add-cat-pagamento', (req, res) => {
+    
     const addCatPagamento = {
         nome: req.body.nome        
     
@@ -36,6 +38,7 @@ router.pot('/add-cat-pagamento', (req, res) => {
 
     new CatPagamento(addCatPagamento).save().then(() => {
         console.log('Reistro salvo com sucesso')
+        
     }).catch((erro) =>{
         console.log('Registro nao pode ser inserido' + erro)
     
