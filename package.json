@@ -2,7 +2,7 @@
   "name": "projeto_pratico",
   "version": "1.0.0",
   "description": "Projeto Pratico com node e mongoDb",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "mocha --ui tdd"
   },
