@@ -134,8 +134,6 @@ router.get('/pagamentos', (req, res) => {
 })
 
 
-
-
 //Cadastrar Pagamento
 router.get('/cad-pagamento', (req, res) => {
 
@@ -188,7 +186,46 @@ router.post('/add-pagamento', (req, res) => {
     
 })
 
+//Criar rota editar Pagamento
+router.get('/edit-pagamento/:id', (req, res) =>{
+   // 
 
+   Pagamento.findOne({_id: req.params.id}).populate('catpagamento').then((pagamento) =>{
+        CatPagamento.find().then((catpagamentos) =>{
+            res.render('admin/edit-pagamento', {pagamento: pagamento, catpagamentos: catpagamentos})
+        }).catch((error) =>{
+            req.flash('error_msg', 'Pagamento não é possivél carregar o formulario Editar Pagamento' + erro)
+            res.redirect('/admin/pagamento')         
+        })
+
+   }).catch((erro)=>{
+    req.flash('error_msg', 'Pagamento não é possivél carregar o formulario Editar Pagamento' + erro)
+    res.redirect('/admin/pagamento') 
+   })
+})
+
+
+//Editar e Salvar valor no banco
+
+router.post('/update-pagamento', (req, res) => {
+    
+    Pagamento.findOne({ id: req.body.id }).then((pagamento) => {
+        pagamento.nome = req.body.nome,
+        pagamento.valor = req.body.valor,
+        pagamento.catpagamento = req.body.catpagamento
+
+        pagamento.save().then(() => {
+            req.flash('success_msg', 'Pagamento Editado com sucesso!! ')
+            res.redirect('/admin/pagamentos')
+        }).catch((erro) => {
+            req.flash('error_msg', 'Pagamento não Editado ' + erro)
+            res.redirect('/admin/pagamentos')
+        })
+    }).catch((erro) => {
+        req.flash('error_msg', 'Pagamento nao encontrado' + erro)
+        res.redirect('/admin/pagamentos')
+    })
+})
 
 
 //Expotar o modulo de rotas
