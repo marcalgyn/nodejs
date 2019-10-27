@@ -29,6 +29,7 @@
         {{>_msg}}
         {{pagamento}}
         <form action="/admin/update-pagamento" method="POST">
+            <input type="hidden" name="id" value="{{pagamento._id}}">
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label><span class="text-danger">*</span> Nome</label>
