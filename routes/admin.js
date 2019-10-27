@@ -30,19 +30,31 @@ router.get('/cad-cat-pagamento', (req, res) => {
 
 
 router.post('/add-cat-pagamento', (req, res) => {
-    
-    const addCatPagamento = {
-        nome: req.body.nome        
-    
+    var errors = []
+
+    if (!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null) {
+        errors.push({ error: 'Necessario preencher o campo nome' })
     }
 
-    new CatPagamento(addCatPagamento).save().then(() => {
-        console.log('Reistro salvo com sucesso')
-        
-    }).catch((erro) =>{
-        console.log('Registro nao pode ser inserido' + erro)
-    
-    })
+    if (errors.length > 0) {
+        res.render("admin/cad-cat-pagamento", { errors: errors })
+    } else {
+        const addCatPagamento = {
+            nome: req.body.nome
+
+        }
+
+        new CatPagamento(addCatPagamento).save().then(() => {
+            req.flash("success_msg", 'Reistro salvo com sucesso')
+            res.redirect('/admin/cat-pagamentos')
+        }).catch((erro) => {
+            req.flash('error_msg', 'Registro nao pode ser inserido')
+
+        })
+
+    }
+
+
 })
 
 
