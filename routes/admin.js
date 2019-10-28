@@ -448,9 +448,9 @@ router.post('/update-usuario', (req, res) => {
 //Deletar Registro
 router.get('/del-usuario/:id', (req, res) => {
 
-    Pagamento.findOne({ _id: req.body.id }).then((usuario) => {
+    Usuario.findOne({ _id: req.body.id }).then((usuario) => {
 
-        Pagamento.deleteOne({ _id: req.params.id }).then(() => {
+        Usuario.deleteOne({ _id: req.params.id }).then(() => {
             req.flash('success_msg', 'Usuário apagado com Sucesso!! ')
             res.redirect('/admin/usuarios')
         }).catch((erro) => {
