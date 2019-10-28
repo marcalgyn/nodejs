@@ -4,6 +4,7 @@ const router = express.Router();
 const mongoose = require('mongoose')
 const bcryptjs = require('bcryptjs')
 
+
 require('../models/CatPagamento')
 const CatPagamento = mongoose.model('catpagamento');
 
@@ -69,7 +70,7 @@ router.post('/add-cat-pagamento', (req, res) => {
             req.flash("success_msg", 'Reistro salvo com sucesso')
             res.redirect('/admin/cat-pagamentos')
         }).catch((erro) => {
-            req.flash('error_msg', 'Registro nao pode ser inserido')
+            req.flash('error_msg', 'Registro nao pode ser inserido' + erro)
 
         })
     }
@@ -133,8 +134,6 @@ router.get('/pagamentos', (req, res) => {
         req.flash('error_msg', 'Pagmento nao encontrado!')
         res.render('admin/pagamentos')
     })
-
-
 })
 
 
@@ -264,9 +263,17 @@ router.get("/vis-pagamento/:id", (req, res) => {
 
 //Listar Usuario
 router.get('/usuarios', (req, res) => {
-    res.render('admin/usuarios')
-})
 
+    Usuario.find().then((usuarios) => {
+
+        res.render('admin/usuarios', { usuarios: usuarios })
+
+    }).catch((erro) => {
+        req.flash('error_msg', 'Usuarios não encontrado!' + erro)
+        res.render('admin/usuarios')
+    })
+
+})
 
 //Cadastar Usuario
 router.get('/cad-usuario', (req, res) => {
@@ -342,6 +349,118 @@ router.post('/add-usuario', (req, res) => {
     }
 
 })
+
+//Visualizar Usuario
+router.get("/vis-usuario/:id", (req, res) => {
+
+    Usuario.findOne({ _id: req.params.id }).then((usuario) => {
+        res.render("admin/vis-usuario", { usuario: usuario })
+    }).catch((erro) => {
+        req.flash('error_msg', 'Usuario não Encontrado ')
+        res.redirect('/admin/usuarios')
+    })
+
+})
+
+
+//Criar rota editar Pagamento
+router.get('/edit-usuario/:id', (req, res) => {
+    // 
+
+    Usuario.findOne({ _id: req.params.id }).then((usuario) => {
+        res.render('admin/edit-usuario', { usuario: usuario })
+
+    }).catch((erro) => {
+        req.flash('error_msg', 'Usuario não é possivél carregar o formulario Editar Esuario' + erro)
+        res.redirect('/admin/usuarios')
+    })
+})
+
+//Salvar Usuario
+
+router.post('/update-usuario', (req, res) => {
+    var errors = []
+    var strSenha
+   
+    Usuario.findOne({ _id: req.body.id }).then((usuario) => {
+    
+
+        if (!req.body.senha || typeof req.body.senha == undefined || req.body.senha == null) {
+            errors.push({ error: "Erro: nescessario informar a Senha" })
+            console.log("Erro: nescessario informar a Senha")
+        }
+        if (!req.body.rep_senha || typeof req.body.rep_senha == undefined || req.body.rep_senha == null) {
+            errors.push({ error: "Erro: nescessario repetir a senha" })
+            
+        }
+
+        if (req.body.senha != req.body.rep_senha) {
+            errors.push({ error: "Erro: Senhas são diferentes" })
+            
+        }
+
+        if (req.body.senha.length < 6) {
+            errors.push({ error: "Erro: Senhas muito Fraca" })
+            
+        }
+        
+        usuario.nome = req.body.nome;
+        strSenha = req.body.senha;
+        
+            
+        if (errors.length > 0) {
+            //Criar aqui uma forma de mostrar a msg de erro quando possui algum erro
+            //res.render('admin/edit-usuario', { errors: errors })
+            res.redirect('/admin/edit-usuario/'+ usuario._id)
+            
+        } else {
+            //usuario.senha = req.body.senha
+            bcryptjs.genSalt(10, (erro, salt) => {
+                bcryptjs.hash(strSenha, salt, (erro, hash) => {
+                    console.log('Senha1 ' + hash)
+                    if (erro) {
+                        req.flash('error_msg', 'Erro: não foi possivel alterar senha entre em contato com o administrador')
+                        res.redirect('/admin/edit-usuario/'+usuario._id)
+                    } else {
+                        usuario.senha = hash;
+                        usuario.save().then(() => {
+                            req.flash('success_msg', 'usuario Editado com Sucesso')
+                            res.redirect('/admin/usuarios')
+                        }).catch((erro) => {
+                            req.flash('error_msg', 'Erro: Não foi possivél Editar Usuarios entre em contato com o Administrador' + erro)
+                            res.redirect('/admin/edit-usuario/'+ usuario._id)
+                        })
+                    }
+                })
+            })
+
+        }
+
+    }).catch((erro) => {
+        req.flash('error_msg', 'Usuario Nao encontrado ' + erro)
+        res.redirect('/admin/usuarios')
+    })
+
+
+})
+
+//Apagar registro de Usuario
+//Deletar Registro
+router.get('/del-usuario/:id', (req, res) => {
+
+    Pagamento.findOne({ _id: req.body.id }).then((usuario) => {
+
+        Pagamento.deleteOne({ _id: req.params.id }).then(() => {
+            req.flash('success_msg', 'Usuário apagado com Sucesso!! ')
+            res.redirect('/admin/usuarios')
+        }).catch((erro) => {
+            req.flash('error_msg', 'Usuário não Apagado')
+            res.redirect('/admin/usuarios')
+        })
+
+    })
+})
+
 
 
 //Expotar o modulo de rotas
