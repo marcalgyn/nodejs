@@ -5,8 +5,10 @@ const handlebars = require('express-handlebars');
 const bodyParser = require('body-parser');
 const app = express();
 const admin = require('./routes/admin');
+const crud = require('./action/crud')
 const path = require("path");
-const mongoose = require('mongoose');
+
+const mongoose = require('mongoose'); //Para trabalhar diretamento com o MongoDB
 const session = require('express-session')
 const flash = require('connect-flash')
 
@@ -41,13 +43,14 @@ const flash = require('connect-flash')
     app.set('view engine', 'handlebars');
 
     //Conexao com o Banco de Dados
+    mongoose.Promise = global.Promise;
     mongoose.connect('mongodb://localhost/marcaldb', {
         useNewUrlParser: true,
         useUnifiedTopology: true
     }).then(() => {
         console.log('Conectado com o banco realizado com sucesso...')
     }).catch((erro) => {
-        console.log('Erro conexao com MongoDB: ' + erro)
+        console.log('Erro ao tentar conectar com BD MongoDB: ' + erro)
     })
 
 
@@ -56,7 +59,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 //Rotas
 app.use('/admin', admin);
-
+app.use('/crud', crud); //Rotas para CRUD
 
 
 

@@ -5,46 +5,63 @@
                 <h2 class="display-4 titulo">Alterar Usuário</h2>
             </div>
             <div class="p-2">
-                <a href="/admin/usuarios">
-                    <button class="btn btn-outline-info btn-sm">
-                        Listar
+                <span class="d-none d-md-block">
+                    <a href="/admin/usuarios" class="btn btn-outline-info btn-sm">Listar</a>
+                    <a href="/crud/vis-usuario/{{usuario._id}}" class="btn btn-outline-primary btn-sm">Visualizar</a>
+                    <a href="/crud/del-usuario/{{usuario._id}}" class="btn btn-outline-danger btn-sm">Apagar</a>
+                </span>
+                <div class="dropdown d-block d-md-none">
+                    <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="acoesListar"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Ações
                     </button>
-                </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="acoesListar">
+                        <a class="dropdown-item" href="/admin/usuarios">Listar</a>
+                        <a class="dropdown-item" href="/crud/vis-usuario/{{usuario._id}}">Visualizar</a>
+                        <a class="dropdown-item" href="/crud/del-usuario/{{usuario._id}}">Apagar</a>
+                    </div>
+                </div>
+
+
             </div>
         </div>
         <hr>
         {{>_msg}}
-        
 
-        <form action="/admin/update-usuario" method="POST">
-            
+
+        <form action="/crud/update-usuario" method="POST">
+
             <input type="hidden" name="id" id="id" value="{{usuario._id}}">
-            
+
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label><span class="text-danger">*</span> Nome</label>
-                    <input name="nome" type="text" class="form-control" id="nome" placeholder="Nome do Usuario" required value="{{usuario.nome}}">
+                    <input name="nome" type="text" class="form-control" id="nome" placeholder="Nome do Usuario" required
+                        value="{{usuario.nome}}">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label><span class="text-danger">*</span> E-mail</label>
-                    <input name="email" type="email" class="form-control" id="email" placeholder="E-mail" value="{{usuario.email}}" required>
+                    <input name="email" type="email" class="form-control" id="email" placeholder="E-mail"
+                        value="{{usuario.email}}" required>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label><span class="text-danger">*</span> Senha</label>
-                    <input name="senha" type="password" class="form-control" id="senha" placeholder="Senha com minimo 6 caracters" required>
+                    <input name="senha" type="password" class="form-control" id="senha"
+                        placeholder="Senha com minimo 6 caracters" required>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label><span class="text-danger">*</span> Repita a Senha</label>
-                    <input name="rep_senha" type="password" class="form-control" id="rep_senha" placeholder="Repita a Senha" required>
+                    <input name="rep_senha" type="password" class="form-control" id="rep_senha"
+                        placeholder="Repita a Senha" required>
                 </div>
             </div>
 
