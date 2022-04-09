@@ -17,7 +17,7 @@
     "express-session": "^1.17.0",
     "git": "^0.1.5",
     "mocha": "^6.2.2",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "mongodb": "^3.3.3",
     "mongoose": "^5.7.7"
   },
